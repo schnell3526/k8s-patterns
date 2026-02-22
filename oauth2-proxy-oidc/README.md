@@ -241,6 +241,17 @@ args:
 | `--skip-claims-from-profile-url` | userinfo に正しい issuer でアクセスできる |
 | `--cookie-secure=false` | TLS 環境ではデフォルト (true) のまま |
 
+### ユーザー無効化の反映（セッション失効）
+
+oauth2-proxy はセッション Cookie ベースのため、IdP 側でユーザーを無効化しても既存の Cookie が有効な間はアクセスが継続します。`--cookie-refresh` を設定すると、指定間隔でトークンリフレッシュを IdP に要求し、IdP がリフレッシュを拒否すればセッションが失効します。
+
+```yaml
+args:
+  - --cookie-refresh=10m   # 10分ごとにトークンリフレッシュ
+```
+
+IdP 側でユーザー無効化 → 最大10分以内にアクセス遮断。Okta 等のマネージド IdP であればこの頻度のリフレッシュは問題ありません。
+
 ### その他の本番考慮事項
 
 | 項目 | デモ | 本番 |
