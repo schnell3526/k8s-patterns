@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client
+  namespace: zero-trust-demo
+  labels:
+    app: client
+    role: client
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.18.0
+      command: ["sleep", "infinity"]

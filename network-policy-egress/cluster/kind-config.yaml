@@ -1,0 +1,11 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: egress-demo
+nodes:
+  - role: control-plane
+networking:
+  # kind デフォルトの kindnet は NetworkPolicy を実装していないため無効化し、
+  # NetworkPolicy をサポートする Calico を別途インストールする
+  disableDefaultCNI: true
+  # Calico のデフォルト IP プールに合わせる (custom-resources.yaml の cidr と一致させる)
+  podSubnet: 192.168.0.0/16
