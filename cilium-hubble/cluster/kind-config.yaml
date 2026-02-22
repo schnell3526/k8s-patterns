@@ -1,0 +1,9 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: cilium-hubble-demo
+nodes:
+  - role: control-plane
+networking:
+  # kind デフォルトの kindnet は NetworkPolicy を実装していないため無効化し、
+  # NetworkPolicy をサポートする Cilium を別途インストールする
+  disableDefaultCNI: true
