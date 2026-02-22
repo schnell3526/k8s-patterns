@@ -17,29 +17,43 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:26.0
+          image: quay.io/keycloak/keycloak:26.5
           args:
             - start-dev
+            - --http-management-relative-path=/
           ports:
             - containerPort: 8080
+              name: http
+            - containerPort: 9000
+              name: management
           env:
             - name: KC_HTTP_RELATIVE_PATH
               value: /keycloak
             - name: KC_PROXY_HEADERS
               value: xforwarded
-            - name: KC_HOSTNAME_URL
-              value: http://localhost/keycloak/
-            - name: KC_HOSTNAME_ADMIN_URL
-              value: http://localhost/keycloak/
-            - name: KEYCLOAK_ADMIN
+            - name: KC_HOSTNAME
+              value: localhost
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
               value: admin
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               value: admin
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+          startupProbe:
+            httpGet:
+              path: /health/started
+              port: 9000
+            failureThreshold: 20
+            periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /keycloak/health/ready
-              port: 8080
-            initialDelaySeconds: 30
+              path: /health/ready
+              port: 9000
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 9000
             periodSeconds: 10
           resources:
             requests:

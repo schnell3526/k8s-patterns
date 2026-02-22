@@ -17,19 +17,22 @@ spec:
     spec:
       containers:
         - name: oauth2-proxy
-          image: quay.io/oauth2-proxy/oauth2-proxy:v7.7.1
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.14.2
           args:
             - --provider=oidc
+            - --skip-oidc-discovery=true
             - --oidc-issuer-url=http://keycloak.mlflow-oidc.svc.cluster.local:8080/keycloak/realms/mlflow
+            - --insecure-oidc-skip-issuer-verification=true
             - --oidc-jwks-url=http://keycloak.mlflow-oidc.svc.cluster.local:8080/keycloak/realms/mlflow/protocol/openid-connect/certs
             - --login-url=http://localhost/keycloak/realms/mlflow/protocol/openid-connect/auth
             - --redeem-url=http://keycloak.mlflow-oidc.svc.cluster.local:8080/keycloak/realms/mlflow/protocol/openid-connect/token
+            - --profile-url=http://keycloak.mlflow-oidc.svc.cluster.local:8080/keycloak/realms/mlflow/protocol/openid-connect/userinfo
+            - --skip-claims-from-profile-url
             - --upstream=http://mlflow.mlflow-oidc.svc.cluster.local:5000
             - --http-address=0.0.0.0:4180
             - --redirect-url=http://localhost/oauth2/callback
             - --cookie-secure=false
             - --skip-provider-button=true
-            - --insecure-oidc-skip-issuer-verification=true
             - --email-domain=*
             - --scope=openid profile email
           ports:
