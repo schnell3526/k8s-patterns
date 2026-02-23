@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tetragon-audit-dashboard
+  namespace: tetragon-audit-demo
+  labels:
+    grafana_dashboard: "1"
+data:
+  tetragon-audit.json: |
+    {
+      "annotations": { "list": [] },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "links": [],
+      "panels": [
+        {
+          "title": "Tetragon イベント (全体)",
+          "type": "logs",
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 0 },
+          "datasource": { "type": "loki", "uid": "" },
+          "targets": [
+            {
+              "expr": "{job=\"tetragon\"} |= ``",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true
+          }
+        },
+        {
+          "title": "ファイルアクセスイベント",
+          "type": "logs",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 10 },
+          "datasource": { "type": "loki", "uid": "" },
+          "targets": [
+            {
+              "expr": "{job=\"tetragon\"} |= \"kprobe\" |= \"fd_install\"",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true
+          }
+        },
+        {
+          "title": "ネットワーク接続イベント",
+          "type": "logs",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 18 },
+          "datasource": { "type": "loki", "uid": "" },
+          "targets": [
+            {
+              "expr": "{job=\"tetragon\"} |= \"kprobe\" |= \"tcp_connect\"",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true
+          }
+        },
+        {
+          "title": "プロセス実行イベント",
+          "type": "logs",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 26 },
+          "datasource": { "type": "loki", "uid": "" },
+          "targets": [
+            {
+              "expr": "{job=\"tetragon\"} |= \"process_exec\"",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "sortOrder": "Descending",
+            "enableLogDetails": true,
+            "prettifyLogMessage": true
+          }
+        },
+        {
+          "title": "イベント数推移",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 34 },
+          "datasource": { "type": "loki", "uid": "" },
+          "targets": [
+            {
+              "expr": "sum(count_over_time({job=\"tetragon\"}[1m]))",
+              "legendFormat": "全イベント",
+              "refId": "A"
+            },
+            {
+              "expr": "sum(count_over_time({job=\"tetragon\"} |= \"process_exec\"[1m]))",
+              "legendFormat": "プロセス実行",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(count_over_time({job=\"tetragon\"} |= \"kprobe\"[1m]))",
+              "legendFormat": "kprobe (ファイル/ネットワーク)",
+              "refId": "C"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "bars",
+                "fillOpacity": 50
+              }
+            }
+          }
+        }
+      ],
+      "schemaVersion": 39,
+      "tags": ["tetragon", "audit", "security"],
+      "templating": { "list": [] },
+      "time": { "from": "now-30m", "to": "now" },
+      "title": "Tetragon 監査ログ",
+      "uid": "tetragon-audit"
+    }
