@@ -19,7 +19,7 @@ helm repo update
 echo ""
 echo "=== Installing Tetragon (kube-system) ==="
 helm install tetragon cilium/tetragon \
-  --version 1.3.0 \
+  --version 1.6.0 \
   --namespace kube-system
 
 echo "Waiting for Tetragon DaemonSet..."
@@ -45,7 +45,7 @@ kubectl apply -f "$PROJECT_DIR/manifests/policies/"
 echo ""
 echo "=== Installing Loki ==="
 helm install loki grafana/loki \
-  --version 6.7.3 \
+  --version 6.53.0 \
   --namespace "$NAMESPACE" \
   --values - <<'EOF'
 deploymentMode: SingleBinary
@@ -96,7 +96,7 @@ kubectl apply -f "$PROJECT_DIR/manifests/grafana/"
 echo ""
 echo "=== Installing Fluent Bit ==="
 helm install fluent-bit fluent/fluent-bit \
-  --version 0.49.0 \
+  --version 0.55.0 \
   --namespace "$NAMESPACE" \
   --values - <<'EOF'
 securityContext:
@@ -141,7 +141,7 @@ kubectl rollout status daemonset/fluent-bit -n "$NAMESPACE" --timeout=300s
 echo ""
 echo "=== Installing Grafana ==="
 helm install grafana grafana/grafana \
-  --version 8.8.2 \
+  --version 10.5.15 \
   --namespace "$NAMESPACE" \
   --values - <<'EOF'
 adminPassword: admin

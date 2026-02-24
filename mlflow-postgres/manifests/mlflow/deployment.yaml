@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  namespace: mlflow-postgres
+  labels:
+    app: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+        - name: mlflow
+          image: ghcr.io/mlflow/mlflow:v3.10.0
+          # 起動時に psycopg2-binary (PostgreSQL ドライバ) と boto3 (S3 クライアント) を追加インストール
+          # 注意: 本番環境ではこれらを含むカスタムイメージを事前ビルドすべき
+          #   docker build -t my-mlflow:latest -f Dockerfile .
+          # 起動時の pip install は起動時間が長くなり、ネットワーク障害でも失敗する
+          command:
+            - bash
+            - -c
+            - |
+              pip install psycopg2-binary boto3 && \
+              mlflow server \
+                --host 0.0.0.0 \
+                --port 5000 \
+                --backend-store-uri postgresql://mlflow:mlflow-password@postgres:5432/mlflow \
+                --default-artifact-root s3://mlflow/
+          # 学習目的: backend-store-uri を args に直書きしている
+          # 本番環境のベストプラクティス:
+          #   - DB 接続文字列は Secret に格納し、環境変数で注入する
+          #   - MLFLOW_BACKEND_STORE_URI 環境変数を使用する
+          ports:
+            - containerPort: 5000
+          env:
+            # MinIO を S3 互換ストレージとして使うための設定
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "http://minio:9000"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: MINIO_ROOT_USER
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: MINIO_ROOT_PASSWORD
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 250m
+            limits:
+              memory: 2Gi
+              cpu: 1000m

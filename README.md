@@ -11,6 +11,8 @@ Kubernetes ネイティブなシステム設計パターンのリポジトリ。
 | [network-policy-egress](./network-policy-egress/)         | Default Deny Egress + DNS 許可 + 外部 HTTPS 制御          |
 | [cilium-hubble](./cilium-hubble/)                         | Cilium + Hubble による NetworkPolicy の可視化             |
 | [gateway-api-canary](./gateway-api-canary/)               | Gateway API (HTTPRoute) によるカナリアリリース            |
+| [tetragon-audit-log](./tetragon-audit-log/)               | Tetragon による eBPF ベースの監査ログ                     |
+| [mlflow-postgres](./mlflow-postgres/)                     | MLflow + PostgreSQL + MinIO による ML 実験管理            |
 
 ## Kubernetes の IF / 実装分離パターン
 

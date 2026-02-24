@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: mlflow-postgres
+data:
+  # PostgreSQL 設定ファイル
+  # shared_buffers: 共有メモリバッファのサイズ（推奨: 利用可能メモリの 25%）
+  # work_mem: ソート・ハッシュ操作ごとのメモリ
+  # log_statement: 'all' で全 SQL をログ出力（学習・デバッグ用。本番では 'ddl' や 'mod' に変更）
+  postgresql.conf: |
+    listen_addresses = '*'
+    shared_buffers = 128MB
+    work_mem = 4MB
+    max_connections = 50
+    log_statement = 'all'
+    log_destination = 'stderr'
+    logging_collector = off
+
+  # MLflow 用データベースとユーザーを作成する初期化 SQL
+  # /docker-entrypoint-initdb.d/ に配置すると、PostgreSQL 初回起動時に自動実行される
+  init-mlflow-db.sql: |
+    CREATE USER mlflow WITH PASSWORD 'mlflow-password';
+    CREATE DATABASE mlflow OWNER mlflow;
+    GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow;

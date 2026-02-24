@@ -1,0 +1,37 @@
+# Job: MinIO に mlflow バケットを作成する
+# setup.sh で MinIO が Ready になった後に実行する
+# init container ではなく Job を使う理由:
+#   init container は同じ Pod 内で実行されるため、MinIO 自身の init container として
+#   使おうとすると MinIO がまだ起動していない（鶏卵問題）。
+#   独立した Job にすることで、MinIO の起動を待ってから実行できる。
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-mlflow-bucket
+  namespace: mlflow-postgres
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mc
+          image: minio/mc:RELEASE.2024-10-08T09-37-26Z
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mc alias set myminio http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
+              mc mb --ignore-existing myminio/mlflow
+              echo "Bucket 'mlflow' created successfully"
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: MINIO_ROOT_PASSWORD

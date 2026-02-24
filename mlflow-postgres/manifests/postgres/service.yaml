@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: mlflow-postgres
+spec:
+  # ClusterIP Service: クラスタ内部からのみアクセス可能
+  # MLflow から postgres:5432 で接続できる（Service Discovery）
+  #
+  # 将来レプリカを追加する場合は Headless Service (clusterIP: None) にすることで
+  # 個別 Pod の DNS レコード（postgres-0.postgres, postgres-1.postgres）が使えるようになる
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
