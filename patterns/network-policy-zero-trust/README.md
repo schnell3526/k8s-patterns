@@ -177,43 +177,6 @@ NetworkPolicy は**ラベルセレクター**で Pod を指定するため、ラ
 
 NetworkPolicy は Kubernetes の標準 API だが、実際の制御は **CNI プラグイン**が行う。kind のデフォルト CNI (kindnet) は NetworkPolicy を**サポートしていない**ため、Calico 等の CNI が必要。CNI が NetworkPolicy をサポートしていない場合、ポリシーを作成してもエラーにならず**単に無視される**ので注意。
 
-## トラブルシューティング
-
-### Calico Pod が起動しない
-
-```bash
-kubectl get pods -n calico-system
-kubectl describe pod -n calico-system -l k8s-app=calico-node
-```
-
-kind のノードが Ready にならない場合、Calico のインストールが完了していない可能性がある。`calico-system` namespace の Pod 状態を確認する。
-
-### テストが期待と異なる結果になる
-
-```bash
-# NetworkPolicy の確認
-kubectl get networkpolicy -n zero-trust-demo
-kubectl describe networkpolicy -n zero-trust-demo
-
-# Pod のラベル確認
-kubectl get pods -n zero-trust-demo --show-labels
-
-# Calico が正しく動作しているか確認
-kubectl get pods -n calico-system
-```
-
-Pod のラベルがポリシーの `podSelector` / `from.podSelector` と一致しているか確認する。
-
-### curl がタイムアウトしない（拒否されるべき通信が通る）
-
-Calico が正しくインストールされていない可能性がある。kind クラスタの CNI 設定を確認:
-
-```bash
-# kind-config.yaml で disableDefaultCNI: true が設定されているか確認
-kubectl get nodes -o wide
-# STATUS が NotReady なら CNI が未インストール
-```
-
 ## 本番環境での考慮事項
 
 | 項目               | デモ                          | 本番                                                         |

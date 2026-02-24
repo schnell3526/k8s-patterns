@@ -173,25 +173,7 @@ mlflow-postgres/
 
 ## トラブルシューティング
 
-### PostgreSQL Pod が起動しない
-
-```bash
-kubectl get pods -n mlflow-postgres
-kubectl describe pod postgres-0 -n mlflow-postgres
-kubectl logs postgres-0 -n mlflow-postgres
-```
-
-PVC がプロビジョニングされているか確認:
-
-```bash
-kubectl get pvc -n mlflow-postgres
-```
-
 ### MLflow が PostgreSQL に接続できない
-
-```bash
-kubectl logs -n mlflow-postgres -l app=mlflow
-```
 
 PostgreSQL が Ready であることを確認:
 
@@ -220,15 +202,7 @@ kubectl exec -n mlflow-postgres deploy/minio -- curl -s http://localhost:9000/mi
 
 ### train-model.py が接続エラーになる
 
-port-forward が起動しているか確認:
-
-```bash
-# MLflow Tracking Server
-kubectl port-forward -n mlflow-postgres svc/mlflow 5000:5000 &
-
-# MinIO (アーティファクトアップロード用)
-kubectl port-forward -n mlflow-postgres svc/minio 9000:9000 &
-```
+MLflow (5000) と MinIO (9000) の両方の port-forward が起動しているか確認する。
 
 ## 本番環境への考慮事項
 

@@ -231,17 +231,9 @@ gateway-api-canary/
 
 ## トラブルシューティング
 
-### Envoy Gateway Pod が起動しない
-
-```bash
-kubectl get pods -n envoy-gateway-system
-kubectl describe pod -n envoy-gateway-system -l app.kubernetes.io/name=gateway-helm
-```
-
 ### Gateway が Programmed にならない
 
 ```bash
-kubectl get gateway -n canary-demo
 kubectl describe gateway eg -n canary-demo
 ```
 
@@ -249,17 +241,18 @@ kubectl describe gateway eg -n canary-demo
 
 ### port-forward でレスポンスが返らない
 
+Envoy proxy Pod が起動しているか確認:
+
 ```bash
-# Envoy proxy Pod の確認
 kubectl get pods -n envoy-gateway-system \
   -l gateway.envoyproxy.io/owning-gateway-name=eg
-
-# HTTPRoute の状態確認
-kubectl get httproute -n canary-demo
-kubectl describe httproute canary-route -n canary-demo
 ```
 
-`parentRefs` の Gateway 名と namespace が正しいか確認する。
+HTTPRoute の `parentRefs` の Gateway 名と namespace が正しいか確認:
+
+```bash
+kubectl describe httproute canary-route -n canary-demo
+```
 
 ### トラフィック分布が期待と大きく異なる
 

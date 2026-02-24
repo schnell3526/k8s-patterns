@@ -196,24 +196,15 @@ error making request to profile URL: unexpected status "401"
 
 ### oauth2-proxy が起動しない
 
-```bash
-kubectl logs -n mlflow-oidc -l app=oauth2-proxy
-```
-
 `missing required setting: issuer-url` エラーの場合、`--skip-oidc-discovery=true` を使用していても `--oidc-issuer-url` は必須です。
 
-Secret `oauth2-proxy` が存在するか確認:
-
-```bash
-kubectl get secret -n mlflow-oidc oauth2-proxy
-```
-
-Secret がない場合は [Keycloak の再セットアップ](#keycloak-の再セットアップ) を実行してください。
+Secret `oauth2-proxy` がない場合は [Keycloak の再セットアップ](#keycloak-の再セットアップ) を実行してください。
 
 ### Ingress が動作しない
 
+ingress-nginx controller のログを確認:
+
 ```bash
-kubectl get ingress -n mlflow-oidc
 kubectl logs -n ingress-nginx -l app.kubernetes.io/component=controller --tail=20
 ```
 

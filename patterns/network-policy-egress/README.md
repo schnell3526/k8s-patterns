@@ -226,36 +226,22 @@ NetworkPolicy はドメイン名をサポートしていない。`httpbin.org` �
 
 ### DNS が解決できない
 
+`allow-dns` ポリシーが kube-dns への通信を許可しているか確認する。`namespaceSelector` と `podSelector` が CoreDNS の実際のラベルと一致している必要がある:
+
 ```bash
 # allow-dns ポリシーが適用されているか確認
 kubectl get networkpolicy -n egress-demo allow-dns
 
-# CoreDNS の Pod ラベルを確認
+# CoreDNS の Pod ラベルを確認（allow-dns の podSelector と一致するか）
 kubectl get pods -n kube-system -l k8s-app=kube-dns --show-labels
 
-# kube-system namespace のラベルを確認
+# kube-system namespace のラベルを確認（allow-dns の namespaceSelector と一致するか）
 kubectl get ns kube-system --show-labels
 ```
 
 ### curl がタイムアウトする
 
-```bash
-# まず DNS が解決できるか確認
-kubectl exec -n egress-demo client -- nslookup httpbin.org
-
-# NetworkPolicy の状態を確認
-kubectl get networkpolicy -n egress-demo
-kubectl describe networkpolicy -n egress-demo
-```
-
 DNS は解決できるのに接続がタイムアウトする場合、`allow-external-https` ポリシーが適用されているか確認する。
-
-### Calico Pod が起動しない
-
-```bash
-kubectl get pods -n calico-system
-kubectl describe pod -n calico-system -l k8s-app=calico-node
-```
 
 ## 本番環境での考慮事項
 

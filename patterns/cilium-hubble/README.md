@@ -197,26 +197,11 @@ cilium hubble port-forward &
 
 ### テストが期待と異なる結果になる
 
+Cilium のポリシー適用状態を確認する（NetworkPolicy の汎用的なデバッグ方法は [patterns/README.md](../README.md) を参照）:
+
 ```bash
-# NetworkPolicy の確認
-kubectl get networkpolicy -n cilium-hubble-demo
-kubectl describe networkpolicy -n cilium-hubble-demo
-
-# Pod のラベル確認
-kubectl get pods -n cilium-hubble-demo --show-labels
-
-# Cilium のポリシー適用状態
 cilium policy get -n cilium-hubble-demo
 ```
-
-### Cilium Pod が起動しない
-
-```bash
-kubectl get pods -n kube-system -l k8s-app=cilium
-kubectl describe pod -n kube-system -l k8s-app=cilium
-```
-
-kind のノードが Ready にならない場合、Cilium のインストールが完了していない可能性がある。
 
 ## クリーンアップ
 

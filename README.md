@@ -6,13 +6,13 @@ Kubernetes ネイティブなシステム設計パターンのリポジトリ。
 
 | ディレクトリ                                              | 概要                                                      |
 | --------------------------------------------------------- | --------------------------------------------------------- |
-| [oauth2-proxy-oidc](./oauth2-proxy-oidc/)                 | oauth2-proxy + Keycloak による OIDC 認証                  |
-| [network-policy-zero-trust](./network-policy-zero-trust/) | Default Deny Ingress + 個別許可による Zero Trust 通信制御 |
-| [network-policy-egress](./network-policy-egress/)         | Default Deny Egress + DNS 許可 + 外部 HTTPS 制御          |
-| [cilium-hubble](./cilium-hubble/)                         | Cilium + Hubble による NetworkPolicy の可視化             |
-| [gateway-api-canary](./gateway-api-canary/)               | Gateway API (HTTPRoute) によるカナリアリリース            |
-| [tetragon-audit-log](./tetragon-audit-log/)               | Tetragon による eBPF ベースの監査ログ                     |
-| [mlflow-postgres](./mlflow-postgres/)                     | MLflow + PostgreSQL + MinIO による ML 実験管理            |
+| [oauth2-proxy-oidc](./patterns/oauth2-proxy-oidc/)                 | oauth2-proxy + Keycloak による OIDC 認証                  |
+| [network-policy-zero-trust](./patterns/network-policy-zero-trust/) | Default Deny Ingress + 個別許可による Zero Trust 通信制御 |
+| [network-policy-egress](./patterns/network-policy-egress/)         | Default Deny Egress + DNS 許可 + 外部 HTTPS 制御          |
+| [cilium-hubble](./patterns/cilium-hubble/)                         | Cilium + Hubble による NetworkPolicy の可視化             |
+| [gateway-api-canary](./patterns/gateway-api-canary/)               | Gateway API (HTTPRoute) によるカナリアリリース            |
+| [tetragon-audit-log](./patterns/tetragon-audit-log/)               | Tetragon による eBPF ベースの監査ログ                     |
+| [mlflow-postgres](./patterns/mlflow-postgres/)                     | MLflow + PostgreSQL + MinIO による ML 実験管理            |
 
 ## Kubernetes の IF / 実装分離パターン
 

@@ -159,11 +159,6 @@ tetragon-audit-log/
 
 ### Tetragon Pod が起動しない
 
-```bash
-kubectl get pods -n kube-system -l app.kubernetes.io/name=tetragon
-kubectl describe pod -n kube-system -l app.kubernetes.io/name=tetragon
-```
-
 Tetragon は eBPF を使用するため、カーネルバージョン 4.19+ が必要。kind のノードイメージは通常これを満たしている。
 
 ### Fluent Bit がログを読めない (Permission denied)
