@@ -15,11 +15,11 @@
 | コンポーネント | イメージ                          | タグ                         |
 | -------------- | --------------------------------- | ---------------------------- |
 | MLflow         | ghcr.io/mlflow/mlflow             | v3.10.0                      |
-| Keycloak       | quay.io/keycloak/keycloak         | 26.5                         |
+| Keycloak       | quay.io/keycloak/keycloak         | 26.5.4                       |
 | OAuth2 Proxy   | quay.io/oauth2-proxy/oauth2-proxy | v7.14.2                      |
-| PostgreSQL     | postgres                          | 16.6                         |
-| MinIO Server   | minio/minio                       | RELEASE.2024-12-18T13-15-44Z |
-| MinIO Client   | minio/mc                          | RELEASE.2024-10-08T09-37-26Z |
+| PostgreSQL     | postgres                          | 16.12                        |
+| MinIO Server   | minio/minio                       | RELEASE.2025-10-15T17-29-55Z |
+| MinIO Client   | minio/mc                          | RELEASE.2025-08-13T08-35-41Z |
 | Nginx          | nginx                             | 1.29                         |
 
 ## コンテナイメージ（ユーティリティ / テスト）
@@ -27,7 +27,7 @@
 | コンポーネント | イメージ            | タグ   |
 | -------------- | ------------------- | ------ |
 | cURL           | curlimages/curl     | 8.18.0 |
-| HTTP Echo      | hashicorp/http-echo | 0.2.3  |
+| HTTP Echo      | hashicorp/http-echo | 1.0.0  |
 | Netshoot       | nicolaka/netshoot   | latest |
 
 ## 外部依存（マニフェスト URL 直接適用）

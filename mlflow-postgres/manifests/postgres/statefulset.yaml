@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:16.6
+          image: postgres:16.12
           # カスタム postgresql.conf を指定
           args: ["-c", "config_file=/etc/postgresql/postgresql.conf"]
           ports:
