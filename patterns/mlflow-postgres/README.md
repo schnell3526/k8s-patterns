@@ -103,12 +103,12 @@ http://localhost:9001 で MinIO Console にアクセスし、`mlflow` バケッ�
 
 ### StatefulSet vs Deployment
 
-| 観点 | StatefulSet (PostgreSQL) | Deployment (MinIO, MLflow) |
-|------|--------------------------|----------------------------|
-| Pod 名 | `postgres-0`, `postgres-1` （固定） | `minio-xyz` （ランダム） |
-| PVC | `volumeClaimTemplates` で Pod ごとに自動作成 | 別途 PVC を定義して参照 |
-| スケーリング | 順序付き（0→1→2）| 並列 |
-| ユースケース | データベース、ステートフルアプリ | ステートレスアプリ |
+| 観点         | StatefulSet (PostgreSQL)                     | Deployment (MinIO, MLflow) |
+| ------------ | -------------------------------------------- | -------------------------- |
+| Pod 名       | `postgres-0`, `postgres-1` （固定）          | `minio-xyz` （ランダム）   |
+| PVC          | `volumeClaimTemplates` で Pod ごとに自動作成 | 別途 PVC を定義して参照    |
+| スケーリング | 順序付き（0→1→2）                            | 並列                       |
+| ユースケース | データベース、ステートフルアプリ             | ステートレスアプリ         |
 
 PostgreSQL に StatefulSet を使う理由:
 - Pod 再スケジュール時に同じ PVC に再接続される必要がある
@@ -206,16 +206,16 @@ MLflow (5000) と MinIO (9000) の両方の port-forward が起動している�
 
 ## 本番環境への考慮事項
 
-| 観点 | この学習環境 | 本番環境 |
-|------|-------------|---------|
-| MLflow イメージ | 起動時に `pip install` で依存追加 | psycopg2-binary, boto3 を含むカスタムイメージ |
-| DB 接続文字列 | args に直書き | Secret + 環境変数 (`MLFLOW_BACKEND_STORE_URI`) |
-| PostgreSQL | 単一 Pod | レプリケーション（Streaming Replication or Patroni） |
-| MinIO | 単一 Pod | 分散モード（4+ ノード） |
-| 認証情報 | Secret に平文 | External Secrets Operator + Vault |
-| バックアップ | なし | pg_dump / WAL アーカイブ + MinIO バージョニング |
-| ネットワーク | 制限なし | NetworkPolicy で Pod 間通信を制限 |
-| リソース | 固定 | HPA + VPA で自動スケーリング |
+| 観点            | この学習環境                      | 本番環境                                             |
+| --------------- | --------------------------------- | ---------------------------------------------------- |
+| MLflow イメージ | 起動時に `pip install` で依存追加 | psycopg2-binary, boto3 を含むカスタムイメージ        |
+| DB 接続文字列   | args に直書き                     | Secret + 環境変数 (`MLFLOW_BACKEND_STORE_URI`)       |
+| PostgreSQL      | 単一 Pod                          | レプリケーション（Streaming Replication or Patroni） |
+| MinIO           | 単一 Pod                          | 分散モード（4+ ノード）                              |
+| 認証情報        | Secret に平文                     | External Secrets Operator + Vault                    |
+| バックアップ    | なし                              | pg_dump / WAL アーカイブ + MinIO バージョニング      |
+| ネットワーク    | 制限なし                          | NetworkPolicy で Pod 間通信を制限                    |
+| リソース        | 固定                              | HPA + VPA で自動スケーリング                         |
 
 ## クリーンアップ
 
