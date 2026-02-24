@@ -18,7 +18,7 @@
 | Keycloak       | quay.io/keycloak/keycloak         | 26.5.4                       |
 | OAuth2 Proxy   | quay.io/oauth2-proxy/oauth2-proxy | v7.14.2                      |
 | PostgreSQL     | postgres                          | 16.12                        |
-| MinIO Server   | minio/minio                       | RELEASE.2025-10-15T17-29-55Z |
+| MinIO Server   | minio/minio                       | RELEASE.2025-09-07T16-13-09Z |
 | MinIO Client   | minio/mc                          | RELEASE.2025-08-13T08-35-41Z |
 | Nginx          | nginx                             | 1.29                         |
 

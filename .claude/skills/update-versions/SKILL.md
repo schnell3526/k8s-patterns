@@ -26,11 +26,17 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, AskUserQuestion, WebFetch
 ### 3. コンテナイメージの最新タグ確認
 
 各イメージについてレジストリ API で最新タグを確認する:
-- **GitHub Releases がある場合** (ghcr.io, minio, oauth2-proxy 等): `curl -s "https://api.github.com/repos/<owner>/<repo>/releases/latest"` で取得
+- **ghcr.io イメージ**: `curl -s "https://api.github.com/repos/<owner>/<repo>/releases/latest"` で取得
 - **Quay.io**: `curl -s "https://quay.io/api/v1/repository/<namespace>/<repo>/tag/?limit=50&onlyActiveTags=true"` で取得
 - **Docker Hub (library/)**: `curl -s "https://hub.docker.com/v2/repositories/library/<image>/tags/?page_size=100"` で取得
 - **Docker Hub (org/)**: `curl -s "https://hub.docker.com/v2/repositories/<org>/<image>/tags/?page_size=100"` で取得
 - **latest タグのみのイメージ** (nicolaka/netshoot 等): スキップ
+
+⚠️ **重要: GitHub Releases API ではなく Docker Hub API を使うべきケース**:
+- `minio/minio`, `minio/mc` など Docker Hub でホストされるイメージは、GitHub Releases にタグが存在しても Docker イメージが公開されていない場合がある
+- これらは必ず **Docker Hub API** (`https://hub.docker.com/v2/repositories/<org>/<image>/tags/`) で実際に存在するタグを確認すること
+- さらに MinIO イメージ (`minio/minio`, `minio/mc`) は `docker pull <image>:<tag>` を実行して実際に pull できることを検証すること
+- 原則: **イメージの取得元レジストリの API で確認する**（ghcr.io → GitHub API、Docker Hub → Docker Hub API、Quay.io → Quay API）
 
 タグのフィルタリングは現在のバージョンパターンに合わせる:
 - セマンティックバージョン (v1.2.3, 1.2.3): 同一メジャーバージョン内の最新を取得
