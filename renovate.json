@@ -1,0 +1,79 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Asia/Tokyo",
+  "kubernetes": {
+    "managerFilePatterns": ["/^patterns/[^/]+/manifests/.+\\.ya?ml$/"]
+  },
+  "customManagers": [
+    {
+      "description": "setup.sh の helm install (cilium)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^patterns/[^/]+/scripts/.+\\.sh$/"],
+      "matchStrings": [
+        "helm (?:install|upgrade)[^\\n]*\\s(?<depName>cilium/(?<packageName>[a-z0-9-]+))\\s*\\\\\\s*--version\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://helm.cilium.io"
+    },
+    {
+      "description": "setup.sh の helm install (grafana)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^patterns/[^/]+/scripts/.+\\.sh$/"],
+      "matchStrings": [
+        "helm (?:install|upgrade)[^\\n]*\\s(?<depName>grafana/(?<packageName>[a-z0-9-]+))\\s*\\\\\\s*--version\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://grafana.github.io/helm-charts"
+    },
+    {
+      "description": "setup.sh の helm install (fluent)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^patterns/[^/]+/scripts/.+\\.sh$/"],
+      "matchStrings": [
+        "helm (?:install|upgrade)[^\\n]*\\s(?<depName>fluent/(?<packageName>[a-z0-9-]+))\\s*\\\\\\s*--version\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://fluent.github.io/helm-charts"
+    },
+    {
+      "description": "setup.sh の helm install (OCI)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^patterns/[^/]+/scripts/.+\\.sh$/"],
+      "matchStrings": [
+        "oci://docker\\.io/(?<depName>[a-z0-9./-]+)\\s*\\\\\\s*--version\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "setup.sh の Calico マニフェスト URL",
+      "customType": "regex",
+      "managerFilePatterns": ["/^patterns/[^/]+/scripts/.+\\.sh$/"],
+      "matchStrings": [
+        "raw\\.githubusercontent\\.com/(?<depName>projectcalico/calico)/(?<currentValue>v[0-9.]+)/"
+      ],
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Envoy Gateway は v 付きのタグを維持する",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["envoyproxy/gateway-helm"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "description": "MinIO の日付形式タグ",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["minio/minio", "minio/mc"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})T(?<build>\\d{2})-\\d{2}-\\d{2}Z$"
+    },
+    {
+      "description": "PostgreSQL のメジャー更新はデータ移行が必要なため、承認後に PR を作成する",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}
