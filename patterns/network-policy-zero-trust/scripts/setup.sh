@@ -9,8 +9,8 @@ echo "=== Creating kind cluster (default CNI disabled) ==="
 kind create cluster --config "$PROJECT_DIR/cluster/kind-config.yaml"
 
 echo "=== Installing Calico CNI ==="
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/tigera-operator.yaml
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/custom-resources.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.33.1/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.33.1/manifests/custom-resources.yaml
 
 echo "=== Waiting for Calico to be ready ==="
 echo "Waiting for calico-system namespace..."
