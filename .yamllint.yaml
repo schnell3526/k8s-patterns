@@ -1,0 +1,12 @@
+extends: default
+
+rules:
+  # 2 スペースインデントで、リストの "-" は字下げしない
+  indentation:
+    spaces: 2
+    indent-sequences: false
+  document-start: disable
+  line-length: disable
+  # GitHub Actions の "on:" キーを許容する
+  truthy:
+    check-keys: false

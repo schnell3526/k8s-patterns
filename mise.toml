@@ -12,3 +12,6 @@ cilium-cli = "0.20.3"
 jq = "1.8.2"
 python = "3.14.10"
 uv = "0.13.10"
+
+# lint
+yamllint = "1.38.0"
