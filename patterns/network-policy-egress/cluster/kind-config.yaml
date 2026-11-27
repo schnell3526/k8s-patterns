@@ -2,7 +2,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: egress-demo
 nodes:
-  - role: control-plane
+- role: control-plane
 networking:
   # kind デフォルトの kindnet は NetworkPolicy を実装していないため無効化し、
   # NetworkPolicy をサポートする Calico を別途インストールする

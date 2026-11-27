@@ -7,6 +7,6 @@ spec:
   selector:
     app: oauth2-proxy
   ports:
-    - port: 4180
-      targetPort: 4180
-      protocol: TCP
+  - port: 4180
+    targetPort: 4180
+    protocol: TCP

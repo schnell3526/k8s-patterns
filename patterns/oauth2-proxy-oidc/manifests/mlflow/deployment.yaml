@@ -16,22 +16,22 @@ spec:
         app: mlflow
     spec:
       containers:
-        - name: mlflow
-          image: ghcr.io/mlflow/mlflow:v3.10.0
-          command: ["mlflow"]
-          args: ["server", "--host", "0.0.0.0", "--port", "5000"]
-          ports:
-            - containerPort: 5000
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 10
-            periodSeconds: 5
-          resources:
-            requests:
-              memory: 1Gi
-              cpu: 250m
-            limits:
-              memory: 2Gi
-              cpu: 1000m
+      - name: mlflow
+        image: ghcr.io/mlflow/mlflow:v3.10.0
+        command: ["mlflow"]
+        args: ["server", "--host", "0.0.0.0", "--port", "5000"]
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 250m
+          limits:
+            memory: 2Gi
+            cpu: 1000m

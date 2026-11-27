@@ -4,19 +4,19 @@ metadata:
   name: file-access-monitor
 spec:
   kprobes:
-    - call: fd_install
-      syscall: false
-      args:
-        - index: 0
-          type: int
-        - index: 1
-          type: "file"
-      selectors:
-        - matchArgs:
-            - index: 1
-              operator: Prefix
-              values:
-                - /etc/shadow
-                - /etc/passwd
-                - /etc/sudoers
-                - /root/.ssh
+  - call: fd_install
+    syscall: false
+    args:
+    - index: 0
+      type: int
+    - index: 1
+      type: "file"
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Prefix
+        values:
+        - /etc/shadow
+        - /etc/passwd
+        - /etc/sudoers
+        - /root/.ssh
