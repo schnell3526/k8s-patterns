@@ -5,8 +5,8 @@ metadata:
   namespace: tetragon-audit-demo
 spec:
   kprobes:
-    - call: tcp_connect
-      syscall: false
-      args:
-        - index: 0
-          type: "sock"
+  - call: tcp_connect
+    syscall: false
+    args:
+    - index: 0
+      type: "sock"

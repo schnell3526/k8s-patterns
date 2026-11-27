@@ -16,49 +16,49 @@ spec:
         app: keycloak
     spec:
       containers:
-        - name: keycloak
-          image: quay.io/keycloak/keycloak:26.5.4
-          args:
-            - start-dev
-            - --http-management-relative-path=/
-          ports:
-            - containerPort: 8080
-              name: http
-            - containerPort: 9000
-              name: management
-          env:
-            - name: KC_HTTP_RELATIVE_PATH
-              value: /keycloak
-            - name: KC_PROXY_HEADERS
-              value: xforwarded
-            - name: KC_HOSTNAME
-              value: localhost
-            - name: KC_BOOTSTRAP_ADMIN_USERNAME
-              value: admin
-            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-              value: admin
-            - name: KC_HEALTH_ENABLED
-              value: "true"
-          startupProbe:
-            httpGet:
-              path: /health/started
-              port: 9000
-            failureThreshold: 20
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health/ready
-              port: 9000
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: 9000
-            periodSeconds: 10
-          resources:
-            requests:
-              memory: 512Mi
-              cpu: 250m
-            limits:
-              memory: 1Gi
-              cpu: 1000m
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:26.5.4
+        args:
+        - start-dev
+        - --http-management-relative-path=/
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9000
+          name: management
+        env:
+        - name: KC_HTTP_RELATIVE_PATH
+          value: /keycloak
+        - name: KC_PROXY_HEADERS
+          value: xforwarded
+        - name: KC_HOSTNAME
+          value: localhost
+        - name: KC_BOOTSTRAP_ADMIN_USERNAME
+          value: admin
+        - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+          value: admin
+        - name: KC_HEALTH_ENABLED
+          value: "true"
+        startupProbe:
+          httpGet:
+            path: /health/started
+            port: 9000
+          failureThreshold: 20
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 9000
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 9000
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 250m
+          limits:
+            memory: 1Gi
+            cpu: 1000m

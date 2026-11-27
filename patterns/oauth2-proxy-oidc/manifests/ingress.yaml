@@ -8,20 +8,20 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: localhost
-      http:
-        paths:
-          - path: /keycloak/
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak
-                port:
-                  number: 8080
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: oauth2-proxy
-                port:
-                  number: 4180
+  - host: localhost
+    http:
+      paths:
+      - path: /keycloak/
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: oauth2-proxy
+            port:
+              number: 4180

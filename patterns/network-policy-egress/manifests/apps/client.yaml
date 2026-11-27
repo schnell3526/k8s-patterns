@@ -8,6 +8,6 @@ metadata:
     role: client
 spec:
   containers:
-    - name: curl
-      image: curlimages/curl:8.18.0
-      command: ["sleep", "infinity"]
+  - name: curl
+    image: curlimages/curl:8.18.0
+    command: ["sleep", "infinity"]

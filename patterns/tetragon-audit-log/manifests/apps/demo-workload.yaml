@@ -7,6 +7,6 @@ metadata:
     app: demo-workload
 spec:
   containers:
-    - name: netshoot
-      image: nicolaka/netshoot:latest
-      command: ["sleep", "infinity"]
+  - name: netshoot
+    image: nicolaka/netshoot:latest
+    command: ["sleep", "infinity"]

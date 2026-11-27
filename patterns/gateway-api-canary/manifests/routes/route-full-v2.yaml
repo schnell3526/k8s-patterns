@@ -5,15 +5,15 @@ metadata:
   namespace: canary-demo
 spec:
   parentRefs:
-    - name: eg
+  - name: eg
   hostnames:
-    - "myapp.example.com"
+  - "myapp.example.com"
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - name: app-v2
-          port: 8080
-          weight: 100
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: app-v2
+      port: 8080
+      weight: 100

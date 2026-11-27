@@ -57,6 +57,11 @@
   ],
   "packageRules": [
     {
+      "description": "major 以外は CI の成功後に自動マージする",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
       "description": "Envoy Gateway は v 付きのタグを維持する",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["envoyproxy/gateway-helm"],
