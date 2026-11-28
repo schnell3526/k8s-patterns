@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mlflow
-        image: ghcr.io/mlflow/mlflow:v3.10.0
+        image: ghcr.io/mlflow/mlflow:v3.18.0
         # 起動時に psycopg2-binary (PostgreSQL ドライバ) と boto3 (S3 クライアント) を追加インストール
         # 注意: 本番環境ではこれらを含むカスタムイメージを事前ビルドすべき
         #   docker build -t my-mlflow:latest -f Dockerfile .
