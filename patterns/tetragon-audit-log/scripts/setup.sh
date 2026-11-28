@@ -19,7 +19,7 @@ helm repo update
 echo ""
 echo "=== Installing Tetragon (kube-system) ==="
 helm install tetragon cilium/tetragon \
-  --version 1.6.0 \
+  --version 1.8.0 \
   --namespace kube-system
 
 echo "Waiting for Tetragon DaemonSet..."
