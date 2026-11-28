@@ -45,7 +45,7 @@ kubectl apply -f "$PROJECT_DIR/manifests/policies/"
 echo ""
 echo "=== Installing Loki ==="
 helm install loki grafana/loki \
-  --version 6.53.0 \
+  --version 7.7.0 \
   --namespace "$NAMESPACE" \
   --values - <<'EOF'
 deploymentMode: SingleBinary
