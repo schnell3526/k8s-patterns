@@ -10,7 +10,7 @@ kind create cluster --config "$PROJECT_DIR/cluster/kind-config.yaml"
 
 echo "=== Installing Envoy Gateway ==="
 helm install eg oci://docker.io/envoyproxy/gateway-helm \
-  --version v1.7.0 \
+  --version v1.10.0 \
   -n envoy-gateway-system \
   --create-namespace
 
