@@ -96,7 +96,7 @@ kubectl apply -f "$PROJECT_DIR/manifests/grafana/"
 echo ""
 echo "=== Installing Fluent Bit ==="
 helm install fluent-bit fluent/fluent-bit \
-  --version 0.55.0 \
+  --version 0.58.3 \
   --namespace "$NAMESPACE" \
   --values - <<'EOF'
 securityContext:
